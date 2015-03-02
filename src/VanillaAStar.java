@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-
+import Manhattan
 public class VanillaAStar extends Robot {
 	public Point start;
 	public Point end;
@@ -19,14 +19,7 @@ public class VanillaAStar extends Robot {
 		width=myWorld.numCols();
 		height=myWorld.numRows();
 	}
-	public interface Heuristic {
-		  public double score(Point cur, Point in);
-		}
-	public class Manhattan implements Heuristic{
-		public double score(Point cur, Point in){
-			return (double)Math.abs(cur.getX()-in.getX())+Math.abs(cur.getY()-in.getY());
-		}
-	}
+
 	private ArrayList<Point> AStar(Heuristic heur){
 		ArrayList<Point> path = new ArrayList<Point>();
 		
@@ -54,8 +47,8 @@ public class VanillaAStar extends Robot {
 	}
 	public void travelToDestination() {
 		// TODO Auto-generated method stub
-		Point currpos = this.getPosition()
-		ArrayList<Point> pathway = this.AStar(Manhattan);
+		Point currpos = this.getPosition();
+		ArrayList<Point> pathway = this.AStar(new Manhattan());
 		for(Point next : pathway){
 			this.move(next);
 		}
