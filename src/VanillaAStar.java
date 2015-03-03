@@ -5,43 +5,45 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import Manhattan
+import java.util.Map.Entry;
+import java.util.SortedMap;
 public class VanillaAStar extends Robot {
 	public Point start;
 	public Point end;
 	public int width;
 	public int height;
-	public VanillaAStar(World myWorld) {
+	public Heuristic h;
+	public VanillaAStar(World myWorld,Heuristic hput) {
 		super();
 		this.addToWorld(myWorld);
 		start=myWorld.getStartPos();
 		end=myWorld.getEndPos();
 		width=myWorld.numCols();
 		height=myWorld.numRows();
+		h=hput;
 	}
 
 	private ArrayList<Point> AStar(Heuristic heur){
-		ArrayList<Point> path = new ArrayList<Point>();
-		
-		HashMap<Point,Double> map = new HashMap<Point,Double>();
-		
-		for(int x;x<this.width; x++){
-			for(int y;y<this.height;y++){
-				map.put(new Point(x,y),heur.score(this.end,new Point(x,y)));
+		ArrayList<Node> path = new ArrayList<Node>();
+		ArrayList<Node> open = new ArrayList<Node>();
+		ArrayList<Node> closed = new ArrayList<Node>();
+		open.add(new Node(this.start,0.0,h.score(this.start,this.start)));
+		Node curr;
+		while(!open.isEmpty()){
+			curr=open.get(open.size());
+			ArrayList<Node> neighs = curr.makeNeighbors(this.h, this);
+			for (Node n : neighs){
+				if(open.contains(n))
+					open.indexOf(n)
+					neighs.remove(n);
+				if(closed.contains(n))
+					neighs.remove(n);
 			}
-		}
-		Point curr=this.start;
-		HashMap<Point,Integer> closed= new HashMap<Point,Integer>();
-		while(curr!=this.end){
+			open.addAll(neighs);
+			for(Node n: neighs){
+				
+			}
 			
-			double x = curr.getX();
-			double y = curr.getY();
-			Point attempt = Collections.min(map);
-			if (this.pingMap(attempt).equals("O")){
-				curr=attempt;
-				path.add(attempt);
-			}
-			map.remove(attempt);
 		}
 		return path;
 	}
